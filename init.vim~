@@ -1,0 +1,22 @@
+" compat
+set encoding=utf8
+scriptencoding utf-8
+set fileencoding=utf8
+set fileformat=unix
+
+
+let g:isWindows = has('win16') || has('win32') || has('win64')
+if g:isWindows
+	let g:file_separator = '\\'
+else
+	let g:file_separator = '/'
+endif
+
+let g:modules = 'modules' . g:file_separator
+
+function! LoadCustomModule(name)
+	let l:script = g:modules . a:name . '.vim'
+	execute ':runtime ' . l:script 
+endfunction
+
+call LoadCustomModule('core')

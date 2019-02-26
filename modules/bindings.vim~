@@ -1,0 +1,16 @@
+scriptencoding = utf-8
+
+let g:mapleader="\<Space>"
+inoremap jj <Esc>
+
+if exists(':tnoremap')
+  tnoremap <C-\> <C-\><C-n>
+endif
+
+xnoremap <silent> p p:if v:register == '*'<Bar>let @@=@0<Bar>endif<cr>
+
+" switching between splits
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-H> <C-W><C-H>
+nnoremap <C-L> <C-W><C-L>
