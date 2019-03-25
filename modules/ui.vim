@@ -1,6 +1,6 @@
 scriptencoding = utf-8
 
-colorscheme tokyo-metro
+colorscheme iceberg
 set termguicolors	" update gui colors
 set cursorline	" show the cursor line
 set relativenumber	" use relative line numbers

@@ -8,6 +8,7 @@ function! tools#PackagerInit() abort
     call packager#add('justinmk/vim-dirvish')
     call packager#add('thinca/vim-localrc')
     call packager#add('mhinz/vim-startify')
+    call packager#add('tmsvg/pear-tree')
 
     call packager#add('chemzqm/vim-jsx-improve', { 'type': 'opt' })
     call packager#add('rktjmp/git-info.vim')

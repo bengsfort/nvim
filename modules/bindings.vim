@@ -49,7 +49,7 @@ inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
 " inoremap <silent>"          <C-r>=autopairs#check_and_insert('"')<CR>
 " inoremap <silent>'          <C-r>=autopairs#check_and_insert("'")<CR>
 " inoremap <silent><          <C-r>=autopairs#check_and_insert('<')<CR>
-inoremap `                  ``<left><Paste>
+" inoremap `                  ``<left><Paste>
 
 " Allow for jumping when doing things like ls and :g/search/#
 cnoremap <expr> <CR> tools#CCR()
