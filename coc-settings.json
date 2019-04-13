@@ -1,0 +1,9 @@
+{
+   "diagnostic.infoSign": "I" ,
+   "diagnostic.errorSign": "!!",
+   "diagnostic.hintSign": "H",
+   "json.enable": false,
+   "javascript.suggest.completeFunctionCalls": true,
+   "tsserver.formatOnType": false,
+   "coc.preferences.formatOnSaveFiletypes": []
+}

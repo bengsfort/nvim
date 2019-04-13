@@ -18,6 +18,7 @@ nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
 nnoremap <C-H> <C-W><C-H>
 nnoremap <C-L> <C-W><C-L>
+nnoremap ,d :bp<bar>bd #<CR>
 nnoremap gh :call tools#ShowDeclaration(1)<CR>
 nnoremap <silent>gj :call tools#PreviewWord()<CR>
 
@@ -28,28 +29,29 @@ nnoremap <silent> ]q :cprev<CR>
 nnoremap <leader>sp :SearchProject<space>
 nnoremap , :find<space>
 nnoremap <leader>, :tselect<space>
+nnoremap <leader>. :Bs<space>
+
+" Source sessions
+nnoremap <leader>os :call tools#sourceSession()<CR>
+
+" Open up tagbar
+nnoremap <F8> :TagbarToggle<CR>
 
 " Search
 nnoremap S :%s//g<LEFT><LEFT>
 vmap s :s//g<LEFT><LEFT>
+nnoremap <C-p> :GFiles<CR>
 
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr> pumvisible() ? "\<C-y>" : "\<cr>"
 
-" inoremap <silent>(          <C-r>=autopairs#check_and_insert('(')<CR>
-" inoremap <silent>(<CR>      <C-r>=autopairs#check_and_insert('(')<CR><CR><esc>O
-" inoremap <silent>(<space>   <C-r>=autopairs#check_and_insert('(')<CR><space><space><left>
-" inoremap <silent>{          <C-r>=autopairs#check_and_insert('{')<CR>
-" inoremap <silent>{<CR>      <C-r>=autopairs#check_and_insert('{')<CR><CR><esc>O
-" inoremap <silent>{<space>   <C-r>=autopairs#check_and_insert('{')<CR><space><space><left>
-" inoremap <silent>[          <C-r>=autopairs#check_and_insert('[')<CR>
-" inoremap <silent>[<CR>          <C-r>=autopairs#check_and_insert('[')<CR><CR><esc>O
-" inoremap <silent>[<space>          <C-r>=autopairs#check_and_insert('[')<CR><CR><space><space><left>
-" inoremap <silent>"          <C-r>=autopairs#check_and_insert('"')<CR>
-" inoremap <silent>'          <C-r>=autopairs#check_and_insert("'")<CR>
-" inoremap <silent><          <C-r>=autopairs#check_and_insert('<')<CR>
-" inoremap `                  ``<left><Paste>
+augroup FileNav
+  autocmd!
+  autocmd FileType dirvish nnoremap <buffer> <silent>D :call tools#DeleteFile()<CR>
+  autocmd FileType dirvish nnoremap <buffer> n :e %/
+  autocmd FileType dirvish nnoremap <buffer> r :call tools#RenameFile()<CR>
+augroup END
 
 " Allow for jumping when doing things like ls and :g/search/#
 cnoremap <expr> <CR> tools#CCR()
