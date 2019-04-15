@@ -41,6 +41,7 @@ nnoremap <F8> :TagbarToggle<CR>
 nnoremap S :%s//g<LEFT><LEFT>
 vmap s :s//g<LEFT><LEFT>
 nnoremap <C-p> :GFiles<CR>
+nnoremap <C-t> :Tags<CR>
 
 inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
