@@ -49,6 +49,8 @@ augroup core
   au! BufNewFile,BufRead *.bat,*.sys setf dosbatch
 	autocmd BufAdd * call tools#loadDeps()
 	autocmd SessionLoadPost * call tools#loadDeps()
+  autocmd WinNew * call tools#saveSession()
+  autocmd VimLeavePre * call tools#saveSession()
 augroup END
 
 augroup MarkMargin
@@ -61,6 +63,10 @@ function! MarkMargin()
     call matchadd('ErrorMsg', '\%>'.b:MarkMargin.'v\s*\zs\$', 0)
   endif
 endfunction
+
+if has('nvim')
+  set inccommand=split " previews search
+endif
 
 " Backup dirs
 let g:data_dir = $HOME . '/.cache/Vim/'
@@ -121,3 +127,14 @@ function! AS_HandleSwapfile (filename, swapname)
     let v:swapchoice = 'e'
   endif
 endfunction
+
+function! s:myTodo()
+  syn match Todo '@\?\(todo\|fixme\):\?' containedin=.*Comment,vimCommentTitle contained
+  hi link MyTodo Todo
+endfunction
+
+" Syntax improvements
+augroup vimrc_todo
+    au!
+    au Syntax * call s:myTodo()
+augroup END

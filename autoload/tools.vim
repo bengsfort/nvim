@@ -9,6 +9,12 @@ function! tools#PackagerInit() abort
     call packager#add('thinca/vim-localrc')
     call packager#add('mhinz/vim-startify')
     call packager#add('tmsvg/pear-tree')
+    call packager#add('neoclide/coc.nvim', { 'type': 'opt', 'do': 'yarn install' })
+    call packager#local('/usr/local/opt/fzf')
+    call packager#add('junegunn/fzf.vim')
+    " Vista did not work with ctags on my work macbook for some reason
+    " call packager#add('liuchengxu/vista.vim', { 'type': 'opt' })
+    call packager#add('majutsushi/tagbar', { 'type': 'opt' })
 
     call packager#add('chemzqm/vim-jsx-improve', { 'type': 'opt' })
     call packager#add('rktjmp/git-info.vim')
@@ -24,7 +30,6 @@ function! tools#PackagerInit() abort
     call packager#add('iamcco/markdown-preview.nvim', { 'type': 'opt', 'do': 'cd app && yarn install' })
     call packager#add('tpope/vim-fugitive', { 'type': 'opt' })
     call packager#add('ludovicchabant/vim-gutentags', { 'type': 'opt' })
-    call packager#add('elzr/vim-json', { 'type': 'opt' })
     call packager#add('lifepillar/vim-mucomplete', { 'type': 'opt' })
     call packager#add('sheerun/vim-polyglot', { 'type': 'opt' })
     call packager#add('racer-rust/vim-racer', { 'type': 'opt' })
@@ -33,7 +38,7 @@ function! tools#PackagerInit() abort
     call packager#add('tpope/vim-scriptease', { 'type': 'opt' })
     call packager#add('tpope/vim-speeddating', { 'type': 'opt' })
     call packager#add('tpope/vim-surround', { 'type': 'opt' })
-  endfunction
+endfunction
 
 function! tools#loadDeps() abort
   if exists('g:loadedDeps')
@@ -47,6 +52,8 @@ function! tools#loadDeps() abort
     packadd vim-schlepp
     packadd vim-surround
     packadd vim-mucomplete
+    " packadd vista.vim
+    packadd tagbar
     let g:loadedDeps = 1
   endif
 endfunction
@@ -96,6 +103,20 @@ function! tools#makeScratch() abort
   setlocal noswapfile
 endfunction
 
+function! tools#RenameFile() abort
+  let l:oldName = getline('.')
+  let l:newName = input('Rename: ', l:oldName, 'file')
+  if newName != '' && newName != oldName
+    call rename(oldName, newName)
+    call feedkeys('R')
+  endif
+endfunction
+
+function! tools#DeleteFile() abort
+  call system(printf('rm -rf %s',getline('.')))
+  call feedkeys('R')
+endfunction
+
 function! tools#ShowDeclaration(global) abort
     let pos = getpos('.')
     if searchdecl(expand('<cword>'), a:global) == 0
@@ -139,5 +160,79 @@ function! tools#PreviewWord() abort
     exe 'match previewWord "\%' . line('.') . 'l\%' . col('.') . 'c\k*"'
       wincmd p            " back to old window
     endif
+  endif
+endfunction
+
+function! tools#BufSel(pattern) abort
+  let bufcount = bufnr('$')
+  let currbufnr = 1
+  let nummatches = 0
+  let firstmatchingbufnr = 0
+  while currbufnr <= bufcount
+    if(bufexists(currbufnr))
+      let currbufname = bufname(currbufnr)
+      if(match(currbufname, a:pattern) > -1)
+        echo currbufnr . ': '. bufname(currbufnr)
+        let nummatches += 1
+        let firstmatchingbufnr = currbufnr
+      endif
+    endif
+    let currbufnr = currbufnr + 1
+  endwhile
+  if(nummatches == 1)
+    execute ':buffer '. firstmatchingbufnr
+  elseif(nummatches > 1)
+    let desiredbufnr = input('Enter buffer number: ')
+    if(strlen(desiredbufnr) != 0)
+      execute ':buffer '. desiredbufnr
+    endif
+  else
+    echo 'No matching buffers'
+  endif
+endfunction
+
+function! tools#branch()
+  if g:isWindows
+    return trim(system("git rev-parse --abbrev-ref HEAD 2> NUL | tr -d '\n'"))
+  else
+    return trim(system("git rev-parse --abbrev-ref HEAD 2> /dev/null | tr -d '\n'"))
+  endif
+endfunction
+
+function! tools#sourceSession() abort
+  let [ sessionName, altName ] = tools#manageSession()
+  if sessionName != ''
+    if sessionName == 'master'
+      return
+    else
+      try
+        execute 'so '.g:sessionPath.trim(sessionName).'.vim'
+      catch
+        execute 'so '.g:sessionPath.altName.'.vim'
+      catch
+        echom 'Could not source session'
+      endtry
+    endif
+  endif
+endfunction
+
+function! tools#manageSession() abort
+  let l:sessionName = tools#branch()
+  let l:cur_dir = substitute(getcwd(), '\\', '/', 'g')
+  let l:filePath = substitute(expand('%:p:h'), '\\', '/', 'g')
+  let l:altName = substitute(l:filePath, l:cur_dir, '', '')
+  return [l:sessionName,  l:altName]
+endfunction
+
+function! tools#saveSession() abort
+  let [ sessionName, altName ] = tools#manageSession()
+  if sessionName != ''
+    if sessionName == 'master'
+      return
+    else
+      execute 'mks! '.g:sessionPath.trim(sessionName).'.vim'
+    endif
+  else
+    execute 'mks! '.g:sessionPath.altName.'.vim'
   endif
 endfunction

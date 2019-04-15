@@ -37,6 +37,7 @@ call LoadCustomModule('ui')
 
 " Commands
 command! -nargs=+ -complete=dir SearchProject execute 'silent! grep!'.<q-args>
+command! -nargs=1 -complete=buffer Bs :call tools#BufSel("<args>")
 
 " Init packager
 command! PackagerInstall call tools#PackagerInit() | call packager#install()
@@ -76,6 +77,7 @@ let g:ale_fix_on_save = 1
 let g:ale_completion_enabled = 1
 let g:ale_javascript_prettier_use_local_config = 1
 let g:ale_virtual_text_cursor = 1
+let g:sessionPath = '~'.g:file_separator.'sessions'.g:file_separator
 
 command! Scratch call tools#makeScratch()
 
