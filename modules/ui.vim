@@ -30,19 +30,19 @@ augroup END
 
 " Tabline: {{{
 set showtabline=2
-set tabline=ᚴ\ %{statusline#StatuslineGit()}\ %{statusline#GitChanges()}
+" set tabline=ᚴ\ %{statusline#StatuslineGit()}\ %{statusline#GitChanges()}
 " }}}
 
 " Statusline
-set statusline=
-set statusline+=%<
-set statusline+=%#StatusLineModified#%{&mod?expand('%'):''}%*%#IsNotModified#%{&mod?'':expand('%')}%*
+" set statusline=
+" set statusline+=%<
+" set statusline+=%#StatusLineModified#%{&mod?expand('%'):''}%*%#IsNotModified#%{&mod?'':expand('%')}%*
 " set statusline+=\ %{statusline#StatuslineGit()}
 " set statusline+=\ %{statusline#GitChanges()}
 
-set statusline+=%=
-set statusline+=\ %{statusline#ReadOnly()}
-set statusline+=\ %{statusline#LinterStatus()}
+" set statusline+=%=
+" set statusline+=\ %{statusline#ReadOnly()}
+" set statusline+=\ %{statusline#LinterStatus()}
 
 " vim compat
 if !has('nvim')

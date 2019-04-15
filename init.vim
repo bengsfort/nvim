@@ -3,6 +3,7 @@ set encoding=utf8
 scriptencoding utf-8
 set fileencoding=utf8
 set fileformat=unix
+set ff=unix
 
 
 let g:isWindows = has('win16') || has('win32') || has('win64')
@@ -24,6 +25,8 @@ if has("unix")
   let s:uname = system("uname")
   if s:uname == "Darwin\n"
     let g:isMac = 1
+  else
+    let g:isMac = 0
   endif
 endif
 
