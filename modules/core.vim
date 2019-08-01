@@ -9,6 +9,7 @@ set lazyredraw
 set autoread	" reread file if edited from elsewhere
 set splitright	" Automatically set cursor to the right
 set undolevels=1000
+set updatetime=500
 set wildignorecase
 set magic	" extended regex
 " set mouse=nv	" mouse can be used in both visual and normal modes
@@ -47,6 +48,7 @@ augroup core
   au! BufNewFile,BufRead *.tsx setf typescript.tsx
   au! BufNewFile,BufRead *.eslintrc,*.babelrc,*.prettierrc,*.huskyrc setf json
   au! BufNewFile,BufRead *.bat,*.sys setf dosbatch
+  au! BufNewFile,BufRead *.h,*.m,*.mm set tags+=~/global-objc-tags
 	autocmd BufAdd * call tools#loadDeps()
 	autocmd SessionLoadPost * call tools#loadDeps()
   autocmd WinNew * call tools#saveSession()

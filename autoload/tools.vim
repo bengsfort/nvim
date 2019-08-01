@@ -15,6 +15,7 @@ function! tools#PackagerInit() abort
     " Vista did not work with ctags on my work macbook for some reason
     " call packager#add('liuchengxu/vista.vim', { 'type': 'opt' })
     call packager#add('majutsushi/tagbar', { 'type': 'opt' })
+    call pacakger#add('desmap/slick')
 
     call packager#add('chemzqm/vim-jsx-improve', { 'type': 'opt' })
     call packager#add('rktjmp/git-info.vim')
